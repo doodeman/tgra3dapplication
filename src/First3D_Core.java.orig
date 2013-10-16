@@ -17,12 +17,13 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 	private float count = 0;
 	private FloatBuffer floorBuffer;
 	private FloatBuffer wallBuffer;
+    private FloatBuffer texCoordBuffer;
 	public Maze maze; 
 	private Box testBox;
-	private Floor floor;
 
 	@Override
 	public void create() {
+		
 		
 		Gdx.input.setInputProcessor(this);
 		
@@ -40,18 +41,18 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		Gdx.gl11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
 
 		floorBuffer = BufferUtils.newFloatBuffer(72);
-		floorBuffer.put(new float[] {0f, 0f, 0f, 0f, 1f, 0f,
-									  1f, 0f, 0f, 1f, 1f, 0f,
-									  1f, 0f, 0f, 1f, 1f, 0f,
-									  1f, 0f, 1f, 1f, 1f, 1f,
-									  1f, 0f, 1f, 1f, 1f, 1f,
-									  0f, 0f, 1f, 0f, 1f, 1f,
-									  0f, 0f, 1f, 0f, 1f, 1f,
-									  0f, 0f, 0f, 0f, 1f, 0f,
-									  0f, 1f, 0f, 0f, 1f, 1f,
-									  1f, 1f, 0f, 1f, 1f, 1f,
-									  0f, 0f, 0f, 0f, 0f, 1f,
-									  1f, 0f, 0f, 1f, 0f, 1f});
+		floorBuffer.put(new float[] {-0.5f, -0.5f, -0.5f, -0.5f, 0.5f, -0.5f,
+									  0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f,
+									  0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f,
+									  0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f,
+									  0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f,
+									  -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f,
+									  -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f,
+									  -0.5f, -0.5f, -0.5f, -0.5f, 0.5f, -0.5f,
+									  -0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f,
+									  0.5f, 0.5f, -0.5f, 0.5f, 0.5f, 0.5f,
+									  -0.5f, -0.5f, -0.5f, -0.5f, -0.5f, 0.5f,
+									  0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f});
 		floorBuffer.rewind();
 		
 		wallBuffer = BufferUtils.newFloatBuffer(72);
@@ -68,14 +69,35 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 								    -0.5f, -0.5f, -0.5f, -0.5f, -0.5f, 0.5f,
 								     0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f});
 		wallBuffer.rewind();
+<<<<<<< HEAD
+
+        texCoordBuffer = BufferUtils.newFloatBuffer(48);
+        texCoordBuffer.put(new float[] {0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+                                                                        0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+                                                                        0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+                                                                        0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+                                                                        0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+                                                                        0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f});
+        texCoordBuffer.rewind();
+        
+        tex = new Texture(Gdx.files.internal("assets/textures/" + textureImage));
+		
+		
+		Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, floorBuffer);
+		
+		
+		
+		cam = new Camera(new Point3D(0.0f, 3.0f, 2.0f), new Point3D(2.0f, 3.0f, 3.0f), new Vector3D(0.0f, 1.0f, 0.0f));
+=======
 		
 		maze = new Maze("maze.txt", wallBuffer);
-		
-		floor = new Floor(floorBuffer, new Point3D(1f,-0.2f,0.5f), (float)(maze.xSize), (float)(maze.ySize));
+
 
 		Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, floorBuffer);
 		cam = new Camera(new Point3D(0.0f, 1.0f, 2.0f), new Point3D(2.0f, 1.0f, 3.0f), new Vector3D(0.0f, 1.0f, 0.0f));
+>>>>>>> 1ce204f31b87f0234439bce2cefc6c36e554953d
 		
+		testBox = new Box(wallBuffer, new Point3D(2f,2f,2f));
 	}
 
 	@Override
@@ -137,7 +159,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 			cam.slide(0.0f, -10.0f * deltaTime, 0.0f);
 		*/
 	}
-	/*
+	
 	private void drawBox() {
 		Gdx.gl11.glNormal3f(0.0f, 0.0f, -1.0f);
 		Gdx.gl11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, 4);
@@ -152,11 +174,8 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		Gdx.gl11.glNormal3f(0.0f, -1.0f, 0.0f);
 		Gdx.gl11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 20, 4);
 	}
-	*/
+	
 	private void drawFloor(float size) {
-		this.floor.draw();
-	}
-	/*	
 		Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, floorBuffer);
 		for(float fx = 0.0f; fx < size; fx += 1.0) {
 			for(float fz = 0.0f; fz < size; fz += 1.0) {
@@ -168,7 +187,6 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 			}
 		}
 	}
-	*/
 	private void drawWalls()
 	{
 		for (int x = 0; x < maze.maze.length; x++)

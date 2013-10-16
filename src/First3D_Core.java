@@ -15,7 +15,9 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 	private boolean wiggleLights = false;
 	private float wiggleValue = 0f;
 	private float count = 0;
-		
+	private FloatBuffer floorBuffer;
+	private FloatBuffer wallBuffer;
+	
 	@Override
 	public void create() {
 		
@@ -34,8 +36,8 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 
 		Gdx.gl11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
 
-		FloatBuffer vertexBuffer = BufferUtils.newFloatBuffer(72);
-		vertexBuffer.put(new float[] {-0.5f, -0.5f, -0.5f, -0.5f, 0.5f, -0.5f,
+		floorBuffer = BufferUtils.newFloatBuffer(72);
+		floorBuffer.put(new float[] {-0.5f, -0.5f, -0.5f, -0.5f, 0.5f, -0.5f,
 									  0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f,
 									  0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f,
 									  0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f,
@@ -47,9 +49,24 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 									  0.5f, 0.5f, -0.5f, 0.5f, 0.5f, 0.5f,
 									  -0.5f, -0.5f, -0.5f, -0.5f, -0.5f, 0.5f,
 									  0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f});
-		vertexBuffer.rewind();
+		floorBuffer.rewind();
+		
+		wallBuffer = BufferUtils.newFloatBuffer(72);
+		wallBuffer.put(new float[] {-0.5f, -0.5f, -0.5f, -0.5f, 0.5f, -0.5f,
+  								     0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f,
+								     0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f,
+								     0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f,
+								     0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f,
+								    -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f,
+								    -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f,
+								    -0.5f, -0.5f, -0.5f, -0.5f, 0.5f, -0.5f,
+								    -0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f,
+								     0.5f, 0.5f, -0.5f, 0.5f, 0.5f, 0.5f,
+								    -0.5f, -0.5f, -0.5f, -0.5f, -0.5f, 0.5f,
+								     0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f});
+		wallBuffer.rewind();
 
-		Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, vertexBuffer);
+		Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, floorBuffer);
 		cam = new Camera(new Point3D(0.0f, 3.0f, 2.0f), new Point3D(2.0f, 3.0f, 3.0f), new Vector3D(0.0f, 1.0f, 0.0f));
 	}
 
@@ -71,9 +88,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 			count += 0.03;
 			this.wiggleValue = (float) Math.sin(count) * 10;
 		}
-		
-		
-		
+				
 		if(this.ligthBulbState)
 			Gdx.gl11.glEnable(GL11.GL_LIGHT0);
 		else
@@ -128,6 +143,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 	}
 	
 	private void drawFloor(float size) {
+		Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, floorBuffer);
 		for(float fx = 0.0f; fx < size; fx += 1.0) {
 			for(float fz = 0.0f; fz < size; fz += 1.0) {
 				Gdx.gl11.glPushMatrix();

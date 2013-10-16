@@ -15,9 +15,15 @@ public class Maze
 	public Box maze[][];
 	int xSize, ySize; 
 	
-	public Maze(String infile) throws IOException
+	public Maze(String infile) 
 	{
-		readInput(infile); 
+		try {
+			readInput(infile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		split();
 	}
 	
 	public void readInput(String infile) throws IOException
@@ -80,15 +86,15 @@ public class Maze
 			for (int n = 0; n < yThickness; n++)
 			{
 				List<Box> gridBoxes = new ArrayList<Box>(); 
-				try{ gridBoxes.add(maze[i*3][n*3]); } catch(ArrayIndexOutOfBoundsException e) { };
-				try{ gridBoxes.add(maze[i*3][n*3+1]); } catch(ArrayIndexOutOfBoundsException e) { };
-				try{ gridBoxes.add(maze[i*3][n*3+2]); } catch(ArrayIndexOutOfBoundsException e) { };
-				try{ gridBoxes.add(maze[i*3+1][n*3]); } catch(ArrayIndexOutOfBoundsException e) { };
-				try{ gridBoxes.add(maze[i*3+1][n*3+1]); } catch(ArrayIndexOutOfBoundsException e) { };
-				try{ gridBoxes.add(maze[i*3+1][n*3+2]); } catch(ArrayIndexOutOfBoundsException e) { };
-				try{ gridBoxes.add(maze[i*3+2][n*3]); } catch(ArrayIndexOutOfBoundsException e) { };
-				try{ gridBoxes.add(maze[i*3+2][n*3+1]); } catch(ArrayIndexOutOfBoundsException e) { };
-				try{ gridBoxes.add(maze[i*3+2][n*3+1]); } catch(ArrayIndexOutOfBoundsException e) { };
+				try{ gridBoxes.add(maze[i*3][n*3]); } 		catch(ArrayIndexOutOfBoundsException e) { };
+				try{ gridBoxes.add(maze[i*3][n*3+1]); } 	catch(ArrayIndexOutOfBoundsException e) { };
+				try{ gridBoxes.add(maze[i*3][n*3+2]); } 	catch(ArrayIndexOutOfBoundsException e) { };
+				try{ gridBoxes.add(maze[i*3+1][n*3]); } 	catch(ArrayIndexOutOfBoundsException e) { };
+				try{ gridBoxes.add(maze[i*3+1][n*3+1]); } 	catch(ArrayIndexOutOfBoundsException e) { };
+				try{ gridBoxes.add(maze[i*3+1][n*3+2]); } 	catch(ArrayIndexOutOfBoundsException e) { };
+				try{ gridBoxes.add(maze[i*3+2][n*3]); } 	catch(ArrayIndexOutOfBoundsException e) { };
+				try{ gridBoxes.add(maze[i*3+2][n*3+1]); } 	catch(ArrayIndexOutOfBoundsException e) { };
+				try{ gridBoxes.add(maze[i*3+2][n*3+1]); } 	catch(ArrayIndexOutOfBoundsException e) { };
 				
 				grids.add(new Grid(gridBoxes));
 			}

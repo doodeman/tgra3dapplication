@@ -71,7 +71,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		
 		maze = new Maze("maze.txt", wallBuffer);
 		
-		floor = new Floor(floorBuffer, new Point3D(1f,-0.2f,0.5f), (float)(maze.xSize), (float)(maze.ySize));
+		floor = new Floor(floorBuffer, new Point3D(-0.5f,0.3f,-0.5f), (float)(maze.xSize), (float)(maze.ySize));
 
 		Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, floorBuffer);
 		cam = new Camera(new Point3D(0.0f, 1.0f, 2.0f), new Point3D(2.0f, 1.0f, 3.0f), new Vector3D(0.0f, 1.0f, 0.0f));

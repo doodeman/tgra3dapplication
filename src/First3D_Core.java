@@ -1,4 +1,3 @@
-package com.tgra;
 import java.nio.FloatBuffer;
 
 import com.badlogic.gdx.graphics.GL11;

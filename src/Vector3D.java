@@ -1,4 +1,3 @@
-package com.tgra;
 
 public class Vector3D {
 	public float x;

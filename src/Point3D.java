@@ -1,4 +1,3 @@
-package com.tgra;
 
 public class Point3D {
 	public float x;

@@ -1,4 +1,3 @@
-package com.tgra;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 

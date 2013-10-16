@@ -2,16 +2,21 @@ import java.nio.FloatBuffer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL11;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.BufferUtils;
 
 public class Box
 {
 	private Point3D location;
 	private FloatBuffer vertexBuffer;
+	private SpriteBatch batch;
+	public Grid grid; 
 	
 	Box(FloatBuffer buffer, Point3D loc){
 		this.location =loc;
 		this.vertexBuffer = buffer;
+		texture = new Texture(Gdx.files.internal("data/circle.png"));
+		batch = new SpriteBatch();
 	}
 	
 	public void draw(){

@@ -18,7 +18,7 @@ public class Box
 		this.location =loc;
 		this.vertexBuffer = buffer;
 		//texture = new Texture(Gdx.files.internal("lib/box.png"));
-		batch = new SpriteBatch();
+		//batch = new SpriteBatch();
 	}
 	
 	public void draw(){

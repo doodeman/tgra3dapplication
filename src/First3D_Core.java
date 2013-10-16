@@ -157,6 +157,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 	}
 	private void drawWalls(){
 		testBox.draw();
+		return;
 	}
 	
 	private void display() {

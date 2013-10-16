@@ -21,10 +21,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 	private Box testBox;
 
 	@Override
-	public void create() {
-		
-		maze = new Maze("maze.txt");
-		
+	public void create() {		
 		Gdx.input.setInputProcessor(this);
 		
 		Gdx.gl11.glEnable(GL11.GL_LIGHTING);

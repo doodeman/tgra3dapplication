@@ -10,9 +10,9 @@ public class Box
 {
 	private Point3D location;
 	private FloatBuffer vertexBuffer;
-	private SpriteBatch batch;
 	public Grid grid; 
 	private Texture texture;
+	private FloatBuffer texCoordBuffer;
 	
 	Box(FloatBuffer buffer, Point3D loc){
 		this.location =loc;

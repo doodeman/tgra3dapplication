@@ -8,6 +8,7 @@ public class Box
 {
 	private Point3D location;
 	private FloatBuffer vertexBuffer;
+	public Grid grid; 
 	
 	Box(FloatBuffer buffer, Point3D loc){
 		this.location =loc;

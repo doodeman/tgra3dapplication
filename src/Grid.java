@@ -15,5 +15,10 @@ public class Grid
 	public Grid(List<Box> boxes)
 	{
 		this.boxes = boxes; 
+		
+		for (Box box : this.boxes)
+		{
+			box.grid = this; 
+		}
 	}
 }

@@ -17,7 +17,7 @@ public class Box
 	Box(FloatBuffer buffer, Point3D loc){
 		this.location =loc;
 		this.vertexBuffer = buffer;
-		texture = new Texture(Gdx.files.internal("lib/box.png"));
+		//texture = new Texture(Gdx.files.internal("lib/box.png"));
 		batch = new SpriteBatch();
 	}
 	

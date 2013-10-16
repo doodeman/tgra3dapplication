@@ -17,10 +17,13 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 	private float count = 0;
 	private FloatBuffer floorBuffer;
 	private FloatBuffer wallBuffer;
+	public Maze maze; 
 	private Box testBox;
-	
+
 	@Override
 	public void create() {
+		
+		maze = new Maze("maze.txt");
 		
 		Gdx.input.setInputProcessor(this);
 		
@@ -66,6 +69,8 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 								    -0.5f, -0.5f, -0.5f, -0.5f, -0.5f, 0.5f,
 								     0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f});
 		wallBuffer.rewind();
+
+		Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, floorBuffer);
 		cam = new Camera(new Point3D(0.0f, 3.0f, 2.0f), new Point3D(2.0f, 3.0f, 3.0f), new Vector3D(0.0f, 1.0f, 0.0f));
 		
 		testBox = new Box(wallBuffer, new Point3D(2f,2f,2f));
@@ -157,7 +162,6 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 	}
 	private void drawWalls(){
 		testBox.draw();
-		return;
 	}
 	
 	private void display() {

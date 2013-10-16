@@ -44,7 +44,7 @@ public class Box
 
 		
 		Gdx.gl11.glTranslatef(this.location.x, this.location.y, this.location.z);
-		Gdx.gl11.glScalef(0.95f, 0.95f, 0.95f);
+		Gdx.gl11.glScalef(1f, 1f, 1f);
 		Gdx.gl11.glNormal3f(0.0f, 0.0f, -1.0f);
 		Gdx.gl11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, 4);
 		Gdx.gl11.glNormal3f(1.0f, 0.0f, 0.0f);

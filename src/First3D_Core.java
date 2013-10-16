@@ -23,7 +23,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 	@Override
 	public void create() {
 		
-		maze = new Maze("maze.txt");
+		maze = new Maze("maze.txt", wallBuffer);
 		
 		Gdx.input.setInputProcessor(this);
 		
@@ -187,7 +187,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		Gdx.gl11.glMaterialfv(GL11.GL_FRONT, GL11.GL_DIFFUSE, materialDiffuse, 0);
 
 		// Draw floor!
-		drawFloor(50);
+		drawFloor(3);
 		drawWalls();
 	}
 

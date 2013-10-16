@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +17,11 @@ public class Maze
 	//Every grid square that is true is filled with a box. 
 	public Box maze[][];
 	int xSize, ySize; 
+	private FloatBuffer buffer; 
 	
-	public Maze(String infile) 
+	public Maze(String infile, FloatBuffer wallBuffer) 
 	{
+		this.buffer = wallBuffer; 
 		try {
 			readInput(infile);
 		} catch (IOException e) {

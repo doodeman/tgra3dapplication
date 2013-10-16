@@ -61,7 +61,7 @@ public class Maze
 			{
 				if (lines.get(i).charAt(n) != ' ')
 				{
-					maze[n][i] = new Box(buffer, new Point3D(i,n,0)); 
+					maze[n][i] = new Box(buffer, new Point3D(i,1,n)); 
 				}
 			}
 		}

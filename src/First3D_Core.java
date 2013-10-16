@@ -17,7 +17,6 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 	private float count = 0;
 	private FloatBuffer floorBuffer;
 	private FloatBuffer wallBuffer;
-    private FloatBuffer texCoordBuffer;
 	public Maze maze; 
 	private Box testBox;
 
@@ -37,7 +36,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 
 		Gdx.gl11.glMatrixMode(GL11.GL_PROJECTION);
 		Gdx.gl11.glLoadIdentity();
-		Gdx.glu.gluPerspective(Gdx.gl11, 90, 1.333333f, 1.0f, 30.0f);
+		Gdx.glu.gluPerspective(Gdx.gl11, 90, 1.333333f, 0.01f, 30.0f);
 
 		Gdx.gl11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
 
@@ -70,24 +69,12 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 								    -0.5f, -0.5f, -0.5f, -0.5f, -0.5f, 0.5f,
 								     0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f});
 		wallBuffer.rewind();
+		
+		maze = new Maze("maze.txt", wallBuffer);
 
-        texCoordBuffer = BufferUtils.newFloatBuffer(48);
-        texCoordBuffer.put(new float[] {0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f,
-                                                                        0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f,
-                                                                        0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f,
-                                                                        0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f,
-                                                                        0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f,
-                                                                        0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f});
-        texCoordBuffer.rewind();
-        
-        tex = new Texture(Gdx.files.internal("assets/textures/" + textureImage));
-		
-		
+
 		Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, floorBuffer);
-		
-		
-		
-		cam = new Camera(new Point3D(0.0f, 3.0f, 2.0f), new Point3D(2.0f, 3.0f, 3.0f), new Vector3D(0.0f, 1.0f, 0.0f));
+		cam = new Camera(new Point3D(0.0f, 1.0f, 2.0f), new Point3D(2.0f, 1.0f, 3.0f), new Vector3D(0.0f, 1.0f, 0.0f));
 		
 		testBox = new Box(wallBuffer, new Point3D(2f,2f,2f));
 	}
@@ -118,12 +105,13 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		
 		float deltaTime = Gdx.graphics.getDeltaTime();
 
+		/*
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)) 
 			cam.pitch(-90.0f * deltaTime);
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) 
 			cam.pitch(90.0f * deltaTime);
-		
+		*/
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) 
 			cam.yaw(-90.0f * deltaTime);
 		
@@ -142,11 +130,13 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) 
 			cam.slide(10.0f * deltaTime, 0.0f, 0.0f);
 		
+		/*
 		if(Gdx.input.isKeyPressed(Input.Keys.R)) 
 			cam.slide(0.0f, 10.0f * deltaTime, 0.0f);
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.F)) 
 			cam.slide(0.0f, -10.0f * deltaTime, 0.0f);
+		*/
 	}
 	
 	private void drawBox() {
@@ -176,8 +166,16 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 			}
 		}
 	}
-	private void drawWalls(){
-		testBox.draw();
+	private void drawWalls()
+	{
+		for (int x = 0; x < maze.maze.length; x++)
+		{
+			for (int y = 0; y < maze.maze[x].length; y++)
+			{
+				if (maze.maze[x][y] != null)
+					maze.maze[x][y].draw();
+			}
+		}
 	}
 	
 	private void display() {
@@ -203,7 +201,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		Gdx.gl11.glMaterialfv(GL11.GL_FRONT, GL11.GL_DIFFUSE, materialDiffuse, 0);
 
 		// Draw floor!
-		drawFloor(50);
+		drawFloor(3);
 		drawWalls();
 	}
 

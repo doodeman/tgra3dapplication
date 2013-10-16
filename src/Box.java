@@ -10,7 +10,7 @@ public class Box
 {
 	private Point3D location;
 	private FloatBuffer vertexBuffer;
-	private FloatBuffer texCoordBuffer;
+	private SpriteBatch batch;
 	public Grid grid; 
 	private Texture texture;
 	

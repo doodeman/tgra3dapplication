@@ -17,6 +17,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 	private float count = 0;
 	private FloatBuffer floorBuffer;
 	private FloatBuffer wallBuffer;
+	private Box testBox;
 	
 	@Override
 	public void create() {
@@ -65,9 +66,9 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 								    -0.5f, -0.5f, -0.5f, -0.5f, -0.5f, 0.5f,
 								     0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f});
 		wallBuffer.rewind();
-
-		Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, floorBuffer);
 		cam = new Camera(new Point3D(0.0f, 3.0f, 2.0f), new Point3D(2.0f, 3.0f, 3.0f), new Vector3D(0.0f, 1.0f, 0.0f));
+		
+		testBox = new Box(wallBuffer, new Point3D(2f,2f,2f));
 	}
 
 	@Override
@@ -154,6 +155,9 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 			}
 		}
 	}
+	private void drawWalls(){
+		testBox.draw();
+	}
 	
 	private void display() {
 		Gdx.gl11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
@@ -179,6 +183,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 
 		// Draw floor!
 		drawFloor(50);
+		drawWalls();
 	}
 
 	@Override

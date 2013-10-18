@@ -3,6 +3,7 @@ import java.nio.FloatBuffer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL11;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.utils.BufferUtils;
 
 public class Floor
@@ -31,8 +32,7 @@ public class Floor
                                         0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f});
         texCoordBuffer.rewind();
         
-        texture = new Texture(Gdx.files.internal("lib/lava.png"));
-		
+        texture = new Texture(Gdx.files.internal("lib/lava.png"));		
 	}
 	
 	public void draw(){
@@ -43,9 +43,8 @@ public class Floor
         Gdx.gl11.glEnable(GL11.GL_TEXTURE_2D);
         Gdx.gl11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
         Gdx.gl11.glTranslatef(this.location.x, this.location.y, this.location.z);
-		   
+        
         texture.bind(); //Gdx.gl11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
-
         Gdx.gl11.glTexCoordPointer(2, GL11.GL_FLOAT, 0, texCoordBuffer);
         
 		Gdx.gl11.glScalef(size_y, size_z, size_x);

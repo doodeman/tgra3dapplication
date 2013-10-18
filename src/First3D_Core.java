@@ -35,7 +35,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 
 		Gdx.gl11.glMatrixMode(GL11.GL_PROJECTION);
 		Gdx.gl11.glLoadIdentity();
-		Gdx.glu.gluPerspective(Gdx.gl11, 90, 1.333333f, 0.01f, 30.0f);
+		Gdx.glu.gluPerspective(Gdx.gl11, 90, 1.333333f, 0.001f, 30.0f);
 
 		Gdx.gl11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
 
@@ -74,7 +74,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		floor = new Floor(floorBuffer, new Point3D(-0.5f,0.3f,-0.5f), (float)(maze.xSize), (float)(maze.ySize));
 
 		Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, floorBuffer);
-		cam = new Camera(new Point3D(0.0f, 1.0f, 2.0f), new Point3D(2.0f, 1.0f, 3.0f), new Vector3D(0.0f, 1.0f, 0.0f));
+		cam = new Camera(new Point3D(0.0f, 1.0f, 2.0f), new Point3D(2.0f, 1.0f, 3.0f), new Vector3D(0.0f, 1.0f, 0.0f), this);
 		
 	}
 
@@ -96,7 +96,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 			count += 0.03;
 			this.wiggleValue = (float) Math.sin(count) * 10;
 		}
-				
+	
 		if(this.ligthBulbState)
 			Gdx.gl11.glEnable(GL11.GL_LIGHT0);
 		else
@@ -111,6 +111,8 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) 
 			cam.pitch(90.0f * deltaTime);
 		*/
+		
+		
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) 
 			cam.yaw(-90.0f * deltaTime);
 		
@@ -118,16 +120,16 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 			cam.yaw(90.0f * deltaTime);
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.W)) 
-			cam.slide(0.0f, 0.0f, -10.0f * deltaTime);
+			cam.slide(0.0f, 0.0f, -2.0f * deltaTime);
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) 
-			cam.slide(0.0f, 0.0f, 10.0f * deltaTime);
+			cam.slide(0.0f, 0.0f, 2.0f * deltaTime);
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.A)) 
-			cam.slide(-10.0f * deltaTime, 0.0f, 0.0f);
+			cam.slide(-5.0f * deltaTime, 0.0f, 0.0f);
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) 
-			cam.slide(10.0f * deltaTime, 0.0f, 0.0f);
+			cam.slide(5.0f * deltaTime, 0.0f, 0.0f);
 		
 		/*
 		if(Gdx.input.isKeyPressed(Input.Keys.R)) 
@@ -234,6 +236,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		return false;
 	}
 
+	
 	@Override
 	public boolean keyUp(int arg0) {
 

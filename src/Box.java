@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.BufferUtils;
 
 public class Box
 {
-	private Point3D location;
+	Point3D location;
 	private FloatBuffer vertexBuffer;
 	public Grid grid; 
 	private Texture texture;

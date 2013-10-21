@@ -10,7 +10,6 @@ public class Floor
 {
 	private Point3D location;
 	private FloatBuffer vertexBuffer;
-	public Grid grid; 
 	private Texture texture;
 	private FloatBuffer texCoordBuffer;
 	private float size_x;

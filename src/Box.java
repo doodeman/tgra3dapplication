@@ -1,4 +1,6 @@
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL11;
@@ -9,11 +11,12 @@ public class Box
 {
 	Point3D location;
 	private FloatBuffer vertexBuffer;
-	public Grid grid; 
+	private Box[][] maze; 
+	private int xpos, ypos;
 	private Texture texture;
 	private FloatBuffer texCoordBuffer;
 	
-	Box(FloatBuffer buffer, Point3D loc){
+	Box(FloatBuffer buffer, Point3D loc, Box[][] maze, int mazePosX, int mazePosY){
 		this.location =loc;
 		this.vertexBuffer = buffer;
 		texCoordBuffer = BufferUtils.newFloatBuffer(48);
@@ -26,7 +29,11 @@ public class Box
         texCoordBuffer.rewind();
         
         texture = new Texture(Gdx.files.internal("lib/box.png"));
-		
+        
+        this.xpos = mazePosY; 
+        this.ypos = mazePosX; 
+        
+        this.maze = maze; 
 	}
 	
 	public void draw(){
@@ -60,5 +67,67 @@ public class Box
 		
         Gdx.gl11.glDisable(GL11.GL_TEXTURE_2D);
         Gdx.gl11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
+	}
+	
+	public List<Box> getNeighbors()
+	{
+		List<Box> neighbors = new ArrayList<Box>(); 
+		try
+		{
+			neighbors.add(maze[xpos-1][ypos-1]);
+		} catch (Exception e) {}
+		try 
+		{
+			neighbors.add(maze[xpos-1][ypos]);
+		} catch (Exception e) {}
+		try 
+		{
+			neighbors.add(maze[xpos-1][ypos+1]);
+		} catch (Exception e) {}
+		try
+		{
+			neighbors.add(maze[xpos][ypos+1]); 
+		} catch (Exception e) {}
+		try
+		{
+			neighbors.add(maze[xpos][ypos-1]); 
+		} catch (Exception e) {}
+		try
+		{
+			neighbors.add(maze[xpos+1][ypos+1]); 
+		} catch (Exception e) {}
+		try
+		{
+			neighbors.add(maze[xpos+1][ypos]); 
+		} catch (Exception e) {}
+		try
+		{
+			neighbors.add(maze[xpos+1][ypos-1]); 
+		} catch (Exception e) {}
+		return neighbors;
+	}
+	
+	public List<Point3D[]> getEdges()
+	{
+		Point3D[] top, bottom, left, right; 
+		top = new Point3D[2]; 
+		top[0] = new Point3D(location.x + 0.5, (double) 0, location.z + 0.5); 
+		top[1] = new Point3D(location.x - 0.5, (double) 0, location.z + 0.5); 
+		bottom = new Point3D[2]; 
+		bottom[0] = new Point3D(location.x + 0.5, (double) 0, location.z - 0.5); 
+		bottom[1] = new Point3D(location.x - 0.5, (double) 0, location.z - 0.5);
+		left = new Point3D[2]; 
+		left[0] = new Point3D(location.x + 0.5, (double) 0, location.z + 0.5); 
+		left[1] = new Point3D(location.x + 0.5, (double) 0, location.z - 0.5); 
+		right = new Point3D[2]; 
+		right[0] = new Point3D(location.x - 0.5, (double) 0, location.z + 0.5); 
+		right[1] = new Point3D(location.x - 0.5, (double) 0, location.z -0.5); 
+		
+		List<Point3D[]> edges = new ArrayList<Point3D[]>(); 
+		edges.add(top);
+		edges.add(bottom); 
+		edges.add(left); 
+		edges.add(right);
+		return edges; 
 	}
 }

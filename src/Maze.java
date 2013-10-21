@@ -60,7 +60,7 @@ public class Maze
 			for (int n = 0, t = lines.get(i).length(); n < t; n++)
 			{
 				if (lines.get(i).charAt(n) == 'o'){
-					goal = new GoalObject(new Point3D(i,1,n));
+					goal = new GoalObject(100, 100, new Point3D(i,1,n));
 				}
 				else if (lines.get(i).charAt(n) != ' ')
 				{

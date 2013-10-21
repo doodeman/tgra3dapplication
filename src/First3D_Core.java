@@ -18,9 +18,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 	private FloatBuffer floorBuffer;
 	private FloatBuffer wallBuffer;
 	public Maze maze; 
-	private Box testBox;
 	private Floor floor;
-	private GoalObject goal;
 	
 	@Override
 	public void create() {
@@ -33,7 +31,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		Gdx.gl11.glEnable(GL11.GL_DEPTH_TEST);
 		
 		Gdx.gl11.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
+		Gdx.gl11.glEnable(GL11.GL_TEXTURE_2D);
 		Gdx.gl11.glMatrixMode(GL11.GL_PROJECTION);
 		Gdx.gl11.glLoadIdentity();
 		Gdx.glu.gluPerspective(Gdx.gl11, 90, 1.333333f, 0.001f, 30.0f);
@@ -73,8 +71,6 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		maze = new Maze("maze.txt", wallBuffer);
 		
 		floor = new Floor(floorBuffer, new Point3D(-0.5f,0.3f,-0.5f), (float)(maze.xSize), (float)(maze.ySize));
-		
-		//goal = new GoalObject(new Point3D(1.0f, 3.0f, 0));
 		
 		Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, floorBuffer);
 		cam = new Camera(new Point3D(0.0f, 1.0f, 2.0f), new Point3D(2.0f, 1.0f, 3.0f), new Vector3D(0.0f, 1.0f, 0.0f), this);

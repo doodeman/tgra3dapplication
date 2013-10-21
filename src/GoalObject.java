@@ -1,62 +1,83 @@
-import org.lwjgl.opengl.GL11;
+import java.nio.FloatBuffer;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.VertexAttributes.Usage;
-import com.badlogic.gdx.graphics.g3d.loaders.ModelLoader;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.GL11;
+import com.badlogic.gdx.utils.BufferUtils;
 
-public class GoalObject {
-	private Mesh goalItem;
-	private Point3D location;
-	private ModelLoader ml;
-	
-	public GoalObject(Point3D location){
-		this.location = location;
-		goalItem = createFullScreenQuad();
-	}
-	
-	public Mesh createFullScreenQuad() {
+public class GoalObject
+{
+        private int stacks;
+        private int slices;
+        private FloatBuffer vertexBuffer;
+        private FloatBuffer normalBuffer;
+        private int vertexCount;
+        private boolean drawLines = false;
+        private boolean victory = false;
+        public Point3D location;
+        
+        
+        public GoalObject(int i_stacks, int i_slices, Point3D location) {
+        	this.location = location;
+        	stacks = i_stacks;
+        	slices = i_slices;
+        	vertexCount = 0;
+        	
+        	float[] array = new float[(stacks)*(slices+1)*6];
+        	float stackInterval = (float)Math.PI / (float)stacks;
+        	float sliceInterval = 2.0f*(float)Math.PI / (float)slices;
+        	float stackAngle, sliceAngle;
+        	for(int stackCount = 0; stackCount < stacks; stackCount++) {
+        		stackAngle = stackCount * stackInterval;
+        		for(int sliceCount = 0; sliceCount < slices+1; sliceCount++) {
+        			sliceAngle = sliceCount * sliceInterval;
+        			array[vertexCount*3] =          (float)Math.sin(stackAngle) * (float)Math.cos(sliceAngle);
+        			array[vertexCount*3 + 1] = (float)Math.cos(stackAngle);
+        			array[vertexCount*3 + 2] = (float)Math.sin(stackAngle) * (float)Math.sin(sliceAngle);
 
-		  float[] verts = new float[20];
-		  int i = 0;
+        			array[vertexCount*3 + 3] = (float)Math.sin(stackAngle + stackInterval) * (float)Math.cos(sliceAngle);
+        			array[vertexCount*3 + 4] = (float)Math.cos(stackAngle + stackInterval);
+        			array[vertexCount*3 + 5] = (float)Math.sin(stackAngle + stackInterval) * (float)Math.sin(sliceAngle);
 
-		  verts[i++] = -1; // x1
-		  verts[i++] = -1; // y1
-		  verts[i++] = 0;
-		  verts[i++] = 0f; // u1
-		  verts[i++] = 0f; // v1
+        			vertexCount += 2;
+        		}
+        	}
+        	vertexBuffer = BufferUtils.newFloatBuffer(vertexCount*3);
+        	vertexBuffer.put(array);
+        	vertexBuffer.rewind();
+        	normalBuffer = BufferUtils.newFloatBuffer(vertexCount*3);
+        	normalBuffer.put(array);
+        	normalBuffer.rewind();
+        }
 
-		  verts[i++] = 1f; // x2
-		  verts[i++] = -1; // y2
-		  verts[i++] = 0;
-		  verts[i++] = 1f; // u2
-		  verts[i++] = 0f; // v2
+        public void draw() {
+        	//Gdx.gl11.glShadeModel(GL11.GL_SMOOTH);
+        	Gdx.gl11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
+        	
+        	if(victory){
+        		displayVictory();
+        	}
+        	
+        	Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, vertexBuffer);
+        	Gdx.gl11.glNormalPointer(GL11.GL_FLOAT, 0, normalBuffer);
+        	Gdx.gl11.glTranslatef(location.x, location.y, location.z);
+        	Gdx.gl11.glScalef(0.2f, 0.2f, 0.2f);
+        	for(int i = 0; i < vertexCount; i += (slices+1)*2) {
+        		if(this.drawLines)
+        			Gdx.gl11.glDrawArrays(GL11.GL_LINE_LOOP, i, (slices+1)*2);
+        		else
+        			Gdx.gl11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, i, (slices+1)*2);
+        	}
+        }
 
-		  verts[i++] = 1f; // x3
-		  verts[i++] = 1f; // y2
-		  verts[i++] = 0;
-		  verts[i++] = 1f; // u3
-		  verts[i++] = 1f; // v3
+        public void toggleDrawLines(){
+        	this.drawLines = this.drawLines ? false : true;
+        }
+        public void displayVictory(){
+        	System.out.println("VICTORY!");
+        }
 
-		  verts[i++] = -1; // x4
-		  verts[i++] = 1f; // y4
-		  verts[i++] = 0;
-		  verts[i++] = 0f; // u4
-		  verts[i++] = 1f; // v4
-
-		  Mesh mesh = new Mesh( true, 4, 0,  // static mesh with 4 vertices and no indices
-		    new VertexAttribute( Usage.Position, 3, ShaderProgram.POSITION_ATTRIBUTE ),
-		    new VertexAttribute( Usage.TextureCoordinates, 2, ShaderProgram.TEXCOORD_ATTRIBUTE+"0" ) );
-		  	
-
-		  mesh.setVertices( verts );
-		  return mesh;
-		}
-		public void draw(){
-			goalItem.render(GL10.GL_TRIANGLES);           // OpenGL ES1.0/1.1
+		public void setVictory(boolean status) {
+			// TODO Auto-generated method stub
+			this.victory = status;
 		}
 }

@@ -40,6 +40,13 @@ public class Camera
 		float oldZ = this.eye.z; 
 		eye.add(Vector3D.sum(Vector3D.mult(delU, u), Vector3D.sum(Vector3D.mult(delV, v), Vector3D.mult(delN, n))));
 		
+		if(atVictoryPoint()){
+			core.maze.goal.setVictory(true);
+		}
+		else{
+			core.maze.goal.setVictory(false);
+		}
+		
 		for (int i = 0; i < core.maze.maze.length; i++)
 		{
 			for (int n = 0; n < core.maze.maze[i].length; n++)
@@ -54,6 +61,15 @@ public class Camera
 				}
 			}
 		}
+	}
+
+	private boolean atVictoryPoint() {
+		if (isBetween(core.maze.goal.location.x - 0.5, eye.x, core.maze.goal.location.x + 0.5)){
+			if (isBetween(core.maze.goal.location.z - 0.5, eye.z, core.maze.goal.location.z + 0.5)){
+					return true; 
+			}
+		}
+		return false;
 	}
 
 	public void yaw(float angle) {

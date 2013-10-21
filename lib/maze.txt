@@ -1,12 +1,22 @@
-                                        
-x  o
-x                               
-x
-x
-x
-x        
-x
-x     x
-x
-x
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                               
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                 
+x                                    x
+xxxxxxx xxxxxxxx   xxxxxxxxxxxx xxxxxx
+x     x x      x   x        x        x
+x       xxxx   x   x            xxxxxx
+x              x   xxxxxxxxxx        x
+x    xxxxxxxxx              x        x
+x                  xxxxxxxxxxxxxxxxxxx
+x                            x       x
+ xxxxxxxxx     xxxxxxxxxxxxxxxxxxxx  x
+x              x                     x
+x    xxxxxxxx  x       xxxxxx        x
+x    x         x       x   xxxxxxx   x
+xxxxxx   xxxxxxxxxxxxxxx             x
+x        xxxxxxxx x           xxxx   x
+xxxxxxx           x   xxxxxxxxx      x
+x     xxxxxxxxx   x           xxx    x
+xxxx              x                  x
+x                xx    xxxxxxxxxxxx  x
+x  xxxxxxxxxxxx                x     x
+x       o     x                x xxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                              

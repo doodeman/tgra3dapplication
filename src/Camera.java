@@ -1,4 +1,7 @@
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL11;
@@ -10,6 +13,10 @@ public class Camera
 	Vector3D v;
 	Vector3D n;
 	
+	int lastCollision = -1; 
+	Box lastClosest = null;
+	
+	Point3D old; 
 	First3D_Core core; 
 
 	public Camera(Point3D pEye, Point3D pCenter, Vector3D up, First3D_Core core) {
@@ -36,8 +43,7 @@ public class Camera
 	}
 	
 	public void slide(float delU, float delV, float delN) {
-		float oldX = this.eye.x; 
-		float oldZ = this.eye.z; 
+		old = new Point3D(eye.x, eye.y, eye.z); 
 		eye.add(Vector3D.sum(Vector3D.mult(delU, u), Vector3D.sum(Vector3D.mult(delV, v), Vector3D.mult(delN, n))));
 		
 		if(atVictoryPoint()){
@@ -114,46 +120,68 @@ public class Camera
 	public void fixCollision(Box b)
 	{
 		List<Box> neighbors = b.getNeighbors();
-		float min = Float.MAX_VALUE;  
-		float distance; 
 		Box closest = null; 
+		float nearestIntersectingEdgeDistance = Float.MAX_VALUE;
+		int closestEdge = -1; 
+		
+		int intersectcount = 0;
 		for (Box neighbor : neighbors)
 		{
 			if (neighbor != null)
 			{
-				distance = eye.distance(neighbor.location);
-				if (distance < min)
+				List<Point3D[]> edges = neighbor.getEdges();
+				for (int i = 0; i < edges.size(); i++)
 				{
-					min = distance; 
-					closest = neighbor; 
+					if (Point3D.LinesIntersect(edges.get(i)[0], edges.get(i)[1], old, eye))
+					{
+						intersectcount++;
+						
+						float n = (float) Point3D.pointToLineDistance(edges.get(i)[0], edges.get(i)[1], old);
+						if (n < nearestIntersectingEdgeDistance)
+						{
+							nearestIntersectingEdgeDistance = n;
+							closestEdge = i; 
+							lastCollision = i;
+							lastClosest = neighbor; 
+							closest = neighbor; 
+							
+						}
+					}
 				}
 			}
 		}
-		distance = eye.distance(b.location);
-		if (distance < min)
+		if (closest == null)
 		{
-			closest = b; 
-		}
-		//Find which side of the box we hit.
-		min = Float.MAX_VALUE;
-		List<Point3D[]> edges = closest.getEdges();
-		int closestEdge = -1; 
-		double closestDistance = Float.MAX_VALUE; 
-		for (int i = 0; i < edges.size(); i++)
-		{
-			double currDistance = Point3D.pointToLineDistance(edges.get(i)[0], edges.get(i)[1], eye);
-			if (currDistance < closestDistance)
+			List<Point3D[]> edges = b.getEdges();
+			for (int i = 0; i < edges.size(); i++)
 			{
-				closestDistance = currDistance;
-				closestEdge = i; 
+				if (Point3D.LinesIntersect(edges.get(i)[0], edges.get(i)[1], old, eye))
+				{
+					intersectcount++;
+					
+					float n = (float) Point3D.pointToLineDistance(edges.get(i)[0], edges.get(i)[1], old);
+					if (n < nearestIntersectingEdgeDistance)
+					{
+						nearestIntersectingEdgeDistance = n;
+						closestEdge = i; 
+						lastCollision = i;
+						lastClosest = b; 
+						closest = b; 
+						
+					}
+				}
 			}
 		}
+		System.out.println(intersectcount);
+		
 		/*
 		 * 0 = top (z = 0.5)
 		 * 1 = bottom (z = -0.5)
 		 * 2 = left (x = 0.5)
 		 * 3 = right (x = -0.5)
 		 */
+		//System.out.println(closestEdge);
+
 		if (closestEdge == 0)
 		{
 			eye.z = (float) (closest.location.z + 0.51);

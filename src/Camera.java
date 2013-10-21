@@ -1,7 +1,7 @@
-
-import com.badlogic.gdx.graphics.GL11;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL11;
 
 public class Camera
 {
@@ -48,15 +48,8 @@ public class Camera
 				{
 					if (hasCollided(core.maze.maze[i][n]))
 					{
-						Box b = core.maze.maze[i][n]; 
-						if (isBetween(b.location.x, this.eye.x, b.location.x + 0.6) || isBetween(b.location.x - 0.6, this.eye.x, b.location.x))
-						{
-							this.eye.x = oldX; 
-						}
-						if (isBetween(b.location.z, this.eye.z, b.location.z + 0.6) || isBetween(b.location.z - 0.6, this.eye.z, b.location.z))
-						{
-							this.eye.z = oldZ; 
-						}
+						fixCollision(core.maze.maze[i][n]);
+						return;
 					}	
 				}
 			}
@@ -103,6 +96,67 @@ public class Camera
 			}
 		}
 		return false;
+	}
+	
+	public void fixCollision(Box b)
+	{
+		List<Box> neighbors = b.getNeighbors();
+		float min = Float.MAX_VALUE;  
+		float distance; 
+		Box closest = null; 
+		for (Box neighbor : neighbors)
+		{
+			if (neighbor != null)
+			{
+				distance = eye.distance(neighbor.location);
+				if (distance < min)
+				{
+					min = distance; 
+					closest = neighbor; 
+				}
+			}
+		}
+		distance = eye.distance(b.location);
+		if (distance < min)
+		{
+			closest = b; 
+		}
+		//Find which side of the box we hit.
+		min = Float.MAX_VALUE;
+		List<Point3D[]> edges = closest.getEdges();
+		int closestEdge = -1; 
+		double closestDistance = Float.MAX_VALUE; 
+		for (int i = 0; i < edges.size(); i++)
+		{
+			double currDistance = Point3D.pointToLineDistance(edges.get(i)[0], edges.get(i)[1], eye);
+			if (currDistance < closestDistance)
+			{
+				closestDistance = currDistance;
+				closestEdge = i; 
+			}
+		}
+		/*
+		 * 0 = top (z = 0.5)
+		 * 1 = bottom (z = -0.5)
+		 * 2 = left (x = 0.5)
+		 * 3 = right (x = -0.5)
+		 */
+		if (closestEdge == 0)
+		{
+			eye.z = (float) (closest.location.z + 0.51);
+		}
+		if (closestEdge == 1)
+		{
+			eye.z = (float) (closest.location.z - 0.51); 
+		}
+		if (closestEdge == 2)
+		{
+			eye.x = (float) (closest.location.x + 0.51); 
+		}
+		if (closestEdge == 3)
+		{
+			eye.x = (float) (closest.location.x - 0.51);
+		}
 	}
 	
 	private boolean isBetween(double y1, double x, double y2)

@@ -1,6 +1,10 @@
 import java.nio.FloatBuffer;
 
 import com.badlogic.gdx.graphics.GL11;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.BufferUtils;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -21,8 +25,20 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 	public Maze maze; 
 	private Floor floor;
 	
+	private String vic = "Victory";
+	private Vector2 position_win = null;
+	private BitmapFont font;
+	private SpriteBatch batch;
+	
 	@Override
 	public void create() {
+		
+		batch = new SpriteBatch();
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
+				Gdx.files.internal("lib/Hyperspace.ttf"));
+		font = generator.generateFont(76);
+		generator.dispose();
+		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		
 		Gdx.input.setInputProcessor(this);
 		
@@ -149,8 +165,12 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		
 	}
 	private void winMove() {
-		cam.eye = new Point3D(1, 10, 1);
-		cam.n.cross(cam.n, cam.u);
+		position_win = new Vector2((Gdx.graphics.getWidth() / 2) - font.getBounds(vic).width / 2,
+							        Gdx.graphics.getHeight() / 2 + font.getBounds(vic).height * 2);
+		batch.begin();
+		font.draw(batch, vic, position_win.x,
+				position_win.y);
+		batch.end();
 	}
 
 	/*

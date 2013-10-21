@@ -18,6 +18,7 @@ public class Maze
 	public Box maze[][];
 	int xSize, ySize; 
 	private FloatBuffer buffer; 
+	public GoalObject goal;
 	
 	public Maze(String infile, FloatBuffer wallBuffer) 
 	{
@@ -59,7 +60,10 @@ public class Maze
 		{
 			for (int n = 0, t = lines.get(i).length(); n < t; n++)
 			{
-				if (lines.get(i).charAt(n) != ' ')
+				if (lines.get(i).charAt(n) == 'o'){
+					goal = new GoalObject(new Point3D(i,1,n));
+				}
+				else if (lines.get(i).charAt(n) != ' ')
 				{
 					maze[n][i] = new Box(buffer, new Point3D(i,1,n)); 
 				}

@@ -12,9 +12,7 @@ public class GoalObject
         private FloatBuffer normalBuffer;
         private int vertexCount;
         private boolean drawLines = false;
-        private boolean victory = false;
         public Point3D location;
-        
         
         public GoalObject(int i_stacks, int i_slices, Point3D location) {
         	this.location = location;
@@ -51,11 +49,7 @@ public class GoalObject
 
         public void draw() {
         	//Gdx.gl11.glShadeModel(GL11.GL_SMOOTH);
-        	Gdx.gl11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
-        	
-        	if(victory){
-        		displayVictory();
-        	}
+        	Gdx.gl11.glEnableClientState(GL11.GL_NORMAL_ARRAY);	
         	
         	Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, vertexBuffer);
         	Gdx.gl11.glNormalPointer(GL11.GL_FLOAT, 0, normalBuffer);
@@ -72,12 +66,5 @@ public class GoalObject
         public void toggleDrawLines(){
         	this.drawLines = this.drawLines ? false : true;
         }
-        public void displayVictory(){
-        	System.out.println("VICTORY!");
-        }
 
-		public void setVictory(boolean status) {
-			// TODO Auto-generated method stub
-			this.victory = status;
-		}
 }

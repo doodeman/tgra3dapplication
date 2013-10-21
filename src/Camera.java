@@ -41,10 +41,7 @@ public class Camera
 		eye.add(Vector3D.sum(Vector3D.mult(delU, u), Vector3D.sum(Vector3D.mult(delV, v), Vector3D.mult(delN, n))));
 		
 		if(atVictoryPoint()){
-			core.maze.goal.setVictory(true);
-		}
-		else{
-			core.maze.goal.setVictory(false);
+			core.win = true;
 		}
 		
 		for (int i = 0; i < core.maze.maze.length; i++)

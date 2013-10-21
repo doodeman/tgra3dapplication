@@ -17,6 +17,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 	private float count = 0;
 	private FloatBuffer floorBuffer;
 	private FloatBuffer wallBuffer;
+	public boolean win = false;
 	public Maze maze; 
 	private Floor floor;
 	
@@ -69,8 +70,12 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		wallBuffer.rewind();
 		
 		maze = new Maze("maze.txt", wallBuffer);
+
+		
 		
 		floor = new Floor(floorBuffer, new Point3D(-0.5f,0.3f,-0.5f), (float)(maze.xSize), (float)(maze.ySize));
+		
+		//goal = new GoalObject(new Point3D(1.0f, 3.0f, 0));
 		
 		Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, floorBuffer);
 		cam = new Camera(new Point3D(0.0f, 1.0f, 2.0f), new Point3D(2.0f, 1.0f, 3.0f), new Vector3D(0.0f, 1.0f, 0.0f), this);
@@ -111,33 +116,43 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 			cam.pitch(90.0f * deltaTime);
 		*/
 		
+		if(!win){
+			if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) 
+				cam.yaw(-90.0f * deltaTime);
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) 
+				cam.yaw(90.0f * deltaTime);
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.W)) 
+				cam.slide(0.0f, 0.0f, -2.0f * deltaTime);
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.S)) 
+				cam.slide(0.0f, 0.0f, 2.0f * deltaTime);
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.A)) 
+				cam.slide(-5.0f * deltaTime, 0.0f, 0.0f);
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.D)) 
+				cam.slide(5.0f * deltaTime, 0.0f, 0.0f);
+			
+			/*
+			if(Gdx.input.isKeyPressed(Input.Keys.R)) 
+				cam.slide(0.0f, 10.0f * deltaTime, 0.0f);
+			
+			if(Gdx.input.isKeyPressed(Input.Keys.F)) 
+				cam.slide(0.0f, -10.0f * deltaTime, 0.0f);
+			*/
+		}
+		else{
+			winMove();
+		}
 		
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) 
-			cam.yaw(-90.0f * deltaTime);
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) 
-			cam.yaw(90.0f * deltaTime);
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.W)) 
-			cam.slide(0.0f, 0.0f, -2.0f * deltaTime);
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.S)) 
-			cam.slide(0.0f, 0.0f, 2.0f * deltaTime);
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.A)) 
-			cam.slide(-5.0f * deltaTime, 0.0f, 0.0f);
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.D)) 
-			cam.slide(5.0f * deltaTime, 0.0f, 0.0f);
-		
-		/*
-		if(Gdx.input.isKeyPressed(Input.Keys.R)) 
-			cam.slide(0.0f, 10.0f * deltaTime, 0.0f);
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.F)) 
-			cam.slide(0.0f, -10.0f * deltaTime, 0.0f);
-		*/
 	}
+	private void winMove() {
+		cam.eye = new Point3D(1, 1, 1);
+		cam.n.mult(-1, cam.n);
+	}
+
 	/*
 	private void drawBox() {
 		Gdx.gl11.glNormal3f(0.0f, 0.0f, -1.0f);

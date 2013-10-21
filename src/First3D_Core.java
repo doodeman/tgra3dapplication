@@ -20,7 +20,8 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 	public Maze maze; 
 	private Box testBox;
 	private Floor floor;
-
+	private GoalObject goal;
+	
 	@Override
 	public void create() {
 		
@@ -72,7 +73,9 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		maze = new Maze("maze.txt", wallBuffer);
 		
 		floor = new Floor(floorBuffer, new Point3D(-0.5f,0.3f,-0.5f), (float)(maze.xSize), (float)(maze.ySize));
-
+		
+		goal = new GoalObject(new Point3D(1.0f, 3.0f, 0));
+		
 		Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, floorBuffer);
 		cam = new Camera(new Point3D(0.0f, 1.0f, 2.0f), new Point3D(2.0f, 1.0f, 3.0f), new Vector3D(0.0f, 1.0f, 0.0f), this);
 		
@@ -208,6 +211,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		// Draw floor!
 		drawFloor(3);
 		drawWalls();
+		goal.draw();
 	}
 
 	@Override

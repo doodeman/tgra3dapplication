@@ -149,8 +149,8 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		
 	}
 	private void winMove() {
-		cam.eye = new Point3D(1, 1, 1);
-		cam.n.mult(-1, cam.n);
+		cam.eye = new Point3D(1, 10, 1);
+		cam.n.cross(cam.n, cam.u);
 	}
 
 	/*

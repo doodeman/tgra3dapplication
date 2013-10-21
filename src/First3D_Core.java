@@ -78,7 +78,7 @@ public class First3D_Core implements ApplicationListener, InputProcessor
 		//goal = new GoalObject(new Point3D(1.0f, 3.0f, 0));
 		
 		Gdx.gl11.glVertexPointer(3, GL11.GL_FLOAT, 0, floorBuffer);
-		cam = new Camera(new Point3D(0.0f, 1.0f, 2.0f), new Point3D(2.0f, 1.0f, 3.0f), new Vector3D(0.0f, 1.0f, 0.0f), this);
+		cam = new Camera(new Point3D(3.5f, 1.0f, 2.0f), new Point3D(2.0f, 1.0f, 3.0f), new Vector3D(0.0f, 1.0f, 0.0f), this);
 		
 	}
 

@@ -104,6 +104,7 @@ public class Box
 		{
 			neighbors.add(maze[xpos+1][ypos-1]); 
 		} catch (Exception e) {}
+		//neighbors.add(this);
 		return neighbors;
 	}
 	
